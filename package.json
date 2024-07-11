@@ -10,6 +10,7 @@
   ],
   "scripts": {
     "bench": "ts-node bench/",
+    "bench:wasm": "node bench/index-wasm.mjs",
     "build": "ts-node bin/generate.ts",
     "build-ts": "tsc",
     "prebuild-wasm": "npm run wasm -- --prebuild && npm run wasm -- --setup",
