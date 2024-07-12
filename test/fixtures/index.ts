@@ -66,12 +66,12 @@ fs.writeFileSync(CHEADERS_FILE, cheaders);
 const fixtures = new Fixture({
   buildDir: path.join(__dirname, '..', 'tmp'),
   extra: [
-    '-msse4.2',
+    process.env.NO_SSE ? '' : '-msse4.2',
     '-DLLHTTP__TEST',
     '-DLLPARSE__ERROR_PAUSE=' + llhttp.constants.ERROR.PAUSED,
     '-include', CHEADERS_FILE,
     path.join(__dirname, 'extra.c'),
-  ],
+  ].filter(s => s),
   maxParallel: process.env.LLPARSE_DEBUG ? 1 : undefined,
 });
 

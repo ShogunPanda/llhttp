@@ -41,6 +41,9 @@ if (process.argv[2] === '--docker') {
   if (process.platform === 'linux') {
     cmd += ` --user ${process.getuid!()}:${process.getegid!()}`;
   }
+  if(process.env.NO_SSE) {
+    cmd += ` -e NO_SSE=${process.env.NO_SSE}`
+  }
   cmd += ` --mount type=bind,source=${WASM_SRC}/build,target=/home/node/llhttp/build llhttp_wasm_builder npm run wasm`;
 
   // eslint-disable-next-line no-console
@@ -69,6 +72,7 @@ execSync(
  -fno-exceptions \
  -fvisibility=hidden \
  -mexec-model=reactor \
+ ${process.env.NO_SSE ? '' : '-msimd128'} \
  -Wl,-error-limit=0 \
  -Wl,-O3 \
  -Wl,--lto-O3 \
